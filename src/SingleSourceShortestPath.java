@@ -13,7 +13,7 @@ public class SingleSourceShortestPath {
         for (Vertex v: graph.v){
             // Initializing Distances and Predecessors
             // If negative weight graphs were allowed, this would have to be changed
-            v.d = -1;
+            v.d = Double.MAX_VALUE;
             // Using PNIL = null as defined in the Vertex class
             v.p = Vertex.PNIL;
         }
@@ -29,7 +29,7 @@ public class SingleSourceShortestPath {
      */
     public boolean relax(Vertex u, Vertex v){
         if (v.d > u.d + Vertex.w(u,v)){
-            v.d = u.d + Vertex.w(u,v);
+            v.d = u.d + (int)Vertex.w(u,v);
             v.p = u.id;
             return true;
         }
