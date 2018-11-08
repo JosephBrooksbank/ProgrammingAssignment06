@@ -2,16 +2,20 @@
  *  Vertex - class for vertex data for directed graph
  *
  * @author Mike Goss <mikegoss@cs.du.edu>
+ *
+ * Modifications made by
+ * @author Joseph Brooksbank
+ * To allow for Vertex names using Strings and weighted graphs
  */
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Vertex implements Comparable {
+public class Vertex {
 
   static double w(Vertex u, Vertex v){
-    for (WeightedAdj anEdge : u.adj){
+    for (WeightedVertex anEdge : u.adj){
       if (anEdge.vertex.equals(v)){
         return anEdge.weight;
       }
@@ -23,7 +27,6 @@ public class Vertex implements Comparable {
     id = id_;
     adj = new LinkedList<>();
     d = -1;
-    f = -1;
     state = State.UNKNOWN;
     p = PNIL;
   }
@@ -32,11 +35,10 @@ public class Vertex implements Comparable {
   public Vertex(Vertex other) {
     id = other.id;
     d = other.d;
-    f = other.f;
     state = other.state;
     p = other.p;
     // Perform a deep copy (create all new vertices which are copies)
-    adj = other.adj.stream().map(WeightedAdj::new).collect(Collectors.toList());
+    adj = other.adj.stream().map(WeightedVertex::new).collect(Collectors.toList());
   }
   
   // Vertex ID and data
@@ -44,13 +46,7 @@ public class Vertex implements Comparable {
   
   // DFS info
   public double d;         // discovery time
-  public int f;         // finish time
 
-  // compareTo - order by reverse finish time value
-  @Override
-  public int compareTo(Object o) {
-    return ((Vertex)o).f - f;
-  }
   
   public enum State { UNKNOWN, ACTIVE, DONE };
   State state;
@@ -58,15 +54,15 @@ public class Vertex implements Comparable {
   public static final String PNIL = null;  // nil predecessor
   
   // List of edges 
-  public final List<WeightedAdj> adj;  // adjacent vertices
+  public final List<WeightedVertex> adj;  // adjacent vertices
   
   // Add an edge to the graph from this vertex
   public void AddEdge(Vertex dest, double weight) {
-    adj.add(new WeightedAdj(dest, weight));
+    adj.add(new WeightedVertex(dest, weight));
   }
 
   public double w(Vertex v){
-    for (WeightedAdj anEdge : adj){
+    for (WeightedVertex anEdge : adj){
       if (anEdge.vertex.equals(v)){
         return anEdge.weight;
       }
@@ -82,17 +78,18 @@ public class Vertex implements Comparable {
 }
 
 
+/**
+ * Tuple class to allow for weighted edges with minimal changes to code elsewhere
+ */
+class WeightedVertex {
 
-
-class WeightedAdj {
-
-  WeightedAdj(Vertex vertex, double weight){
+  WeightedVertex(Vertex vertex, double weight){
     this.vertex = vertex;
     this.weight = weight;
   }
 
   /** Copy constructor */
-  WeightedAdj(WeightedAdj other){
+  WeightedVertex(WeightedVertex other){
     this.vertex = new Vertex(other.vertex);
     this.weight = other.weight;
   }

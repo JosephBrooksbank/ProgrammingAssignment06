@@ -1,3 +1,6 @@
+/**
+ * Parent class for any Single Source Shortest Path algorithms
+ */
 public class SingleSourceShortestPath {
     Graph graph;
     Vertex source;
@@ -6,10 +9,11 @@ public class SingleSourceShortestPath {
      * Method to initialize a Single Source Shorted Path Algorithm
      * @param source        The source of the path
      */
-    public void initSingleSouce(Vertex source){
+    void initSingleSouce(Vertex source){
         for (Vertex v: graph.v){
-            // Initializing Distances and Predecessors, v.d can't be -1 because negative graphs are allowed
-            v.d = Integer.MAX_VALUE;
+            // Initializing Distances and Predecessors
+            // If negative weight graphs were allowed, this would have to be changed
+            v.d = -1;
             // Using PNIL = null as defined in the Vertex class
             v.p = Vertex.PNIL;
         }
