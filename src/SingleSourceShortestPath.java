@@ -1,5 +1,6 @@
 public class SingleSourceShortestPath {
     Graph graph;
+    Vertex source;
 
 
     /**
@@ -23,7 +24,7 @@ public class SingleSourceShortestPath {
      * @param v     The second vertex
      * @return      Whether or not the distance was changed (Modification as specified by the assignment)
      */
-    public boolean Relax(Vertex u, Vertex v){
+    public boolean relax(Vertex u, Vertex v){
         if (v.d > u.d + Vertex.w(u,v)){
             v.d = u.d + Vertex.w(u,v);
             v.p = u.id;
