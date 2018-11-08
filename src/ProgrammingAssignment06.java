@@ -7,6 +7,7 @@ import java.util.Scanner;
  */
 public class ProgrammingAssignment06 {
 
+    private static final long NUMBER_OF_RUNS = 100;
     public static void main(String[] args) throws FileNotFoundException{
 
         // Reading graph from file into a Graph object
@@ -23,17 +24,38 @@ public class ProgrammingAssignment06 {
             }
         }
 
+
         // Creating search algorithms
         BellmanFord bford = new BellmanFord(graph, graph.v.get(0));
         DijkstraModified dijkstra = new DijkstraModified(graph, graph.v.get(0));
 
-        // TODO time them here
-        dijkstra.start();
-        bford.start();
+        float bfordTime = 0;
+        float dijkTime = 0;
 
-        // TODO write output to file
-        System.out.println(graph.getInfo());
-        System.out.println();
+        // Writing output to file
+        bford.start();
+        graph.writeToFile(args[0] + ".bout");
+        dijkstra.start();
+        graph.writeToFile(args[0] + ".dout");
+
+        // Timing algorithms
+        for (int i = 0; i < NUMBER_OF_RUNS; i++){
+            CpuTimer bfordTimer = new CpuTimer();
+            bford.start();
+            bfordTime += bfordTimer.getElapsedCpuTime();
+
+            CpuTimer dijkTimer = new CpuTimer();
+            dijkstra.start();
+            dijkTime += dijkTimer.getElapsedCpuTime();
+
+        }
+
+        // Writing avg times to stdout
+        bfordTime = bfordTime / NUMBER_OF_RUNS;
+        dijkTime = dijkTime / NUMBER_OF_RUNS;
+        System.out.println(graph.getInfo() + ",\"B\"," + bfordTime + ",\"" + args[0] + "\"");
+        System.out.println(graph.getInfo() + ",\"D\"," + dijkTime + ",\"" + args[0] + "\"");
+
 
     }
 

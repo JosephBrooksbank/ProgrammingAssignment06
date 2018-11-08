@@ -19,12 +19,12 @@ public class DijkstraModified extends SingleSourceShortestPath {
         Q.add(source);
         while (!Q.isEmpty()) {
             Vertex u = Q.poll();
-            for (WeightedVertex v : u.adj){
-                if (relax(u,v.vertex)){
-                    if (Q.contains(v.vertex)){
-                        Q.remove(v.vertex);
+            for (Vertex v : u.adj){
+                if (relax(u,v)){
+                    if (Q.contains(v)){
+                        Q.remove(v);
                     }
-                    Q.add(v.vertex);
+                    Q.add(v);
                 }
             }
         }

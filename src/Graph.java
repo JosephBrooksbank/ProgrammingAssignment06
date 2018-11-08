@@ -1,4 +1,7 @@
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /*
@@ -85,6 +88,21 @@ public class Graph {
       }
 
     return numVertices + "," + numEdges;
+    }
+
+    void writeToFile(String fileName) {
+      try {
+        BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
+
+        for (Vertex u : v){
+          out.write(u.id + " " + u.d + "\n");
+        }
+
+      } catch (IOException e) {
+        System.err.println("Something went wrong in a way I didn't expect");
+      }
+
+
     }
   }
 
