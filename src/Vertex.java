@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class Vertex implements Comparable {
 
-  static int w(Vertex u, Vertex v){
+  static double w(Vertex u, Vertex v){
     for (WeightedAdj anEdge : u.adj){
       if (anEdge.vertex.equals(v)){
         return anEdge.weight;
@@ -19,7 +19,7 @@ public class Vertex implements Comparable {
     throw new IllegalStateException("No edge between these vertices");
   }
   // Constructor
-  Vertex(int id_) {
+  Vertex(String id_) {
     id = id_;
     adj = new LinkedList<>();
     d = -1;
@@ -40,10 +40,10 @@ public class Vertex implements Comparable {
   }
   
   // Vertex ID and data
-  public final int id;
+  public final String id;
   
   // DFS info
-  public int d;         // discovery time
+  public double d;         // discovery time
   public int f;         // finish time
 
   // compareTo - order by reverse finish time value
@@ -54,24 +54,30 @@ public class Vertex implements Comparable {
   
   public enum State { UNKNOWN, ACTIVE, DONE };
   State state;
-  public int p;         // predecessor (pi)
-  public static final int PNIL = -1;  // nil predecessor
+  public String p;         // predecessor (pi)
+  public static final String PNIL = null;  // nil predecessor
   
   // List of edges 
   public final List<WeightedAdj> adj;  // adjacent vertices
   
   // Add an edge to the graph from this vertex
-  public void AddEdge(Vertex dest, int weight) {
+  public void AddEdge(Vertex dest, double weight) {
     adj.add(new WeightedAdj(dest, weight));
   }
 
-  public int w(Vertex v){
+  public double w(Vertex v){
     for (WeightedAdj anEdge : adj){
       if (anEdge.vertex.equals(v)){
         return anEdge.weight;
       }
     }
     throw new IllegalStateException("No edge between these vertices");
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    Vertex v = (Vertex)obj;
+    return id.equals(v.id);
   }
 }
 
@@ -80,7 +86,7 @@ public class Vertex implements Comparable {
 
 class WeightedAdj {
 
-  WeightedAdj(Vertex vertex, int weight){
+  WeightedAdj(Vertex vertex, double weight){
     this.vertex = vertex;
     this.weight = weight;
   }
@@ -91,5 +97,10 @@ class WeightedAdj {
     this.weight = other.weight;
   }
   Vertex vertex;
-  int weight;
+  double weight;
+
+  @Override
+  public String toString() {
+    return vertex + ", " + weight;
+  }
 }

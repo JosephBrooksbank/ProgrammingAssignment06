@@ -2,7 +2,6 @@ public class SingleSourceShortestPath {
     Graph graph;
     Vertex source;
 
-
     /**
      * Method to initialize a Single Source Shorted Path Algorithm
      * @param source        The source of the path
@@ -11,7 +10,7 @@ public class SingleSourceShortestPath {
         for (Vertex v: graph.v){
             // Initializing Distances and Predecessors, v.d can't be -1 because negative graphs are allowed
             v.d = Integer.MAX_VALUE;
-            // Using PNIL = -1 as defined in the Vertex class
+            // Using PNIL = null as defined in the Vertex class
             v.p = Vertex.PNIL;
         }
 
@@ -32,4 +31,5 @@ public class SingleSourceShortestPath {
         }
         return false;
     }
+
 }

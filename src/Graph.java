@@ -8,11 +8,12 @@ import java.util.ArrayList;
  */
 public class Graph {
   // Create a graph with specified number of vertices
-  Graph(int numVertices) {
-    v = new ArrayList<>(numVertices);
-    for (int i = 0; i < numVertices; ++i) {
-      v.add(new Vertex(i));
-    }
+  Graph() {
+    v = new ArrayList<>();
+  }
+
+  public void AddVertex(String id){
+    v.add(new Vertex(id));
   }
   
   // Copy constructor
@@ -31,19 +32,40 @@ public class Graph {
   }
   
   // Add an edge
-  public void AddEdge(int src, int dst, int weight) {
-    v.get(src).AddEdge(v.get(dst), weight);
+  public void AddEdge(String srcString, String dstString, double weight) {
+
+    Vertex src = null;
+    Vertex dst = null;
+
+    // Iterating through ArrayList of Vertices to find correct ones
+    for (Vertex vert : v){
+      // If matches the src String, point src to that
+      if (vert.id.equals(srcString))
+        src = vert;
+      // same with dst
+      if (vert.id.equals(dstString))
+        dst = vert;
+    }
+
+    // If they don't exist, make new Vertex objects for them
+    if (src == null){
+      src = new Vertex(srcString);
+      v.add(src);
+    }
+    if (dst == null){
+      dst = new Vertex(dstString);
+      v.add(dst);
+    }
+
+    // Add the edge between them
+    src.AddEdge(dst, weight);
   }
   
   // Find root in DFS search tree of specified vertex
-  public int FindRoot(int u) {
-    int i = u;
-    while (v.get(i).p != Vertex.PNIL) {
-      i = v.get(i).p;
-    }
-    return i;
-  }
+  ///// FINDROOT REMOVED /////
   
   // Vertex array for graph
   ArrayList<Vertex> v;
+  
 }
+
